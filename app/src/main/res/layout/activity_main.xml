@@ -69,7 +69,17 @@
             android:id="@+id/reset_btn"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="Reset">
+            android:text="Reset"
+            android:layout_marginRight="10dp"
+            >
+
+        </Button>
+
+        <Button
+            android:id="@+id/settings_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Settings">
 
         </Button>
 

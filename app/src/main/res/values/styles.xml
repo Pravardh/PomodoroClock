@@ -6,4 +6,26 @@
         <item name="android:textSize">23dp</item>
         <item name="android:text">Study</item>
     </style>
+
+    <style name="EditStudyViewTheme">
+    <item name="android:fontFamily">@font/now_regular</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">23dp</item>
+    <item name="android:text">25</item>
+</style>
+    <style name="EditShortBreakViewTheme">
+    <item name="android:fontFamily">@font/now_regular</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">23dp</item>
+    <item name="android:text">5</item>
+
+    </style>
+    <style name="EditLongBreakViewTheme">
+    <item name="android:fontFamily">@font/now_regular</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">23dp</item>
+    <item name="android:text">10</item>
+</style>
+
+
 </resources>

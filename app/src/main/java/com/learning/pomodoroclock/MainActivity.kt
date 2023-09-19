@@ -1,18 +1,14 @@
 package com.learning.pomodoroclock
 
 import android.app.AlarmManager
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.provider.Settings
 import android.view.View
 import android.widget.*
 import java.sql.Time
-
-enum class TimerMode(timerInMilliseconds: Long) {
-    STUDY_TIMER(1500000),
-    SHORT_BREAK_TIMER(300000),
-    LONG_BREAK_TIMER(600000)
-}
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,12 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     var is_timer_running = false
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         val modes = resources.getStringArray(R.array.modes)
 
@@ -36,8 +29,13 @@ class MainActivity : AppCompatActivity() {
 
         val start_button: Button = findViewById(R.id.start_btn)
         val reset_button: Button = findViewById(R.id.reset_btn)
+        val settings_button: Button = findViewById(R.id.settings_btn)
 
-        val alarmManager: AlarmManager
+        settings_button.setOnClickListener  {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
 
         start_button.setOnClickListener {
 
@@ -90,18 +88,27 @@ class MainActivity : AppCompatActivity() {
     }
     fun selectItem(selectItem: String, tvClock: TextView) {
 
-        val studyTimer: Int? = timerMode[selectItem]
+        var studyTimer: Int? = timerMode[selectItem]
         var minutes: Int
         var seconds: Int
         var time: String
 
         if(studyTimer != null){
+            val defaultValue: Int? = timerMode[selectItem]
+
+            if(defaultValue != null)
+                studyTimer = intent.getIntExtra(selectItem,  defaultValue)
+
+            else{
+                Toast.makeText(this, "ERROR: Default value is null!", Toast.LENGTH_LONG)
+            }
 
             val startMinutes = (studyTimer/1000 / 60)
             val startSeconds = (studyTimer/1000 % 60)
 
             time = String.format("%02d:%02d", startMinutes,startSeconds);
             tvClock.text = time
+
 
             timer = object : CountDownTimer(studyTimer.toLong(), 59) {
 
