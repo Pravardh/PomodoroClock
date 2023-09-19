@@ -12,7 +12,7 @@ Here's how the Pomodoro technique typically works:
 
 # Project Overview
 
-This is a Pomodoro clock made in Android and Kotlin. This is the first program I have made without following tutorials.
+This is a Pomodoro clock made in Kotlin. This is the first program I have made without following tutorials.
 This project aims to ensure I understand the basics of Kotlin programming. I tried to follow all the classic steps taken 
 to prototype or create an application. I got the colour pallet from Coolors.co and the UI idea from Figma. 
 
