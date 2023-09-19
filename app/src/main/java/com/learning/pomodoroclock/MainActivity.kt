@@ -1,86 +1,90 @@
 package com.learning.pomodoroclock
 
-import android.app.AlarmManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.provider.Settings
 import android.view.View
 import android.widget.*
-import java.sql.Time
+import com.learning.pomodoroclock.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    var timerMode = mapOf("Study" to 1500000, "Short Break" to 300000, "Long Break" to 600000)
+    private lateinit var binding: ActivityMainBinding
 
-    lateinit var timer: CountDownTimer
 
-    var is_timer_running = false
+    private lateinit var timer: CountDownTimer
+
+    var isTimerRunning = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+
+        setContentView(view)
+
+        //Getting all the values from the layout
 
         val modes = resources.getStringArray(R.array.modes)
 
-        val tv_clock: TextView = findViewById(R.id.tv_clock)
-        val spinner = findViewById<Spinner>(R.id.mode_spinner)
+        val tvClock: TextView = binding.tvClock
+        val spinner = binding.modeSpinner
 
-        val start_button: Button = findViewById(R.id.start_btn)
-        val reset_button: Button = findViewById(R.id.reset_btn)
-        val settings_button: Button = findViewById(R.id.settings_btn)
+        val startButton: Button = binding.startBtn
+        val resetButton: Button = binding.resetBtn
+        val settingsButton: Button = binding.settingsBtn
 
-        settings_button.setOnClickListener  {
+        settingsButton.setOnClickListener  {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
 
 
-        start_button.setOnClickListener {
+        startButton.setOnClickListener {
 
-            is_timer_running = true
+            //Set is_timer_running to true and start the timer which is assigned in the selectOption selectItem function
+            isTimerRunning = true
             timer.start()
 
         }
 
-        reset_button.setOnClickListener {
+        resetButton.setOnClickListener {
 
             timer.cancel()
-            tv_clock.text = "00:00"
-            is_timer_running = false
+            tvClock.text = getString(R.string.reset_text)
+            isTimerRunning = false
 
         }
 
-        if (spinner != null) {
+        //Mostly boiler plate stuff
 
-            var adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, modes)
-            spinner.adapter = adapter
+        var adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, modes)
+        spinner.adapter = adapter
 
-            if (spinner != null) {
-                adapter = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_spinner_item, modes
-                )
-                spinner.adapter = adapter
+        adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item, modes
+        )
+        spinner.adapter = adapter
 
-                spinner.onItemSelectedListener = object :
-                    AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>,
-                        view: View, position: Int, id: Long
-                    ) {
+        spinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
 
-                        selectItem(modes[position], tv_clock)
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
 
-                    }
+                //Ensuring timer isn't running so that the values don't change. Although there's a bug: Value changes on the spinner obviously. SHOULD FIX
+                if(!isTimerRunning)
+                    selectItem(modes[position], tvClock)
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        TODO("NOT IMPLEMENTED")
-                    }
+            }
 
-                }
-
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("NOT IMPLEMENTED")
             }
 
         }
@@ -88,47 +92,41 @@ class MainActivity : AppCompatActivity() {
     }
     fun selectItem(selectItem: String, tvClock: TextView) {
 
-        var studyTimer: Int? = timerMode[selectItem]
         var minutes: Int
         var seconds: Int
         var time: String
 
-        if(studyTimer != null){
-            val defaultValue: Int? = timerMode[selectItem]
+        val studyTimer: Int = SettingsActivity.SettingsSingleton.getValue(selectItem)
 
-            if(defaultValue != null)
-                studyTimer = intent.getIntExtra(selectItem,  defaultValue)
+       val startMinutes = ((studyTimer / 1000) / 60)
+       val startSeconds = ((studyTimer / 1000) % 60)
 
-            else{
-                Toast.makeText(this, "ERROR: Default value is null!", Toast.LENGTH_LONG)
-            }
+       time = String.format("%02d:%02d", startMinutes, startSeconds)
 
-            val startMinutes = (studyTimer/1000 / 60)
-            val startSeconds = (studyTimer/1000 % 60)
+       tvClock.text = time
 
-            time = String.format("%02d:%02d", startMinutes,startSeconds);
-            tvClock.text = time
+       timer = object : CountDownTimer(studyTimer.toLong(), 59) {
 
+       override fun onTick(millisUntilFinished: Long) {
 
-            timer = object : CountDownTimer(studyTimer.toLong(), 59) {
+            minutes = ((millisUntilFinished / 1000) / 60).toInt()
+           seconds = ((millisUntilFinished / 1000) % 60).toInt()
 
-                override fun onTick(millisUntilFinished: Long) {
+           time = String.format("%02d:%02d", minutes, seconds)
 
-                    minutes = ((millisUntilFinished / 1000) / 60).toInt()
-                    seconds = ((millisUntilFinished / 1000) % 60).toInt()
+           tvClock.text = time
 
-                    time = String.format("%02d:%02d", minutes, seconds);
+       }
 
-                    tvClock.text = time
-                }
+        override fun onFinish() {
+            tvClock.text = getString(R.string.reset_text)
+            isTimerRunning = false
 
-                override fun onFinish() {
-                    tvClock.text = "00:00"
-                    is_timer_running = false
-                }
-            }
         }
 
+       }
+
     }
 
     }
+

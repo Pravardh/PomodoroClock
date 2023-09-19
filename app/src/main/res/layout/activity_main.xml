@@ -7,13 +7,12 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="#BEA8A7"
-    >
+    android:background="#BEA8A7">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pomodoro Clock"
+        android:text="@string/title"
         android:fontFamily="@font/now_bold"
         android:textStyle="bold"
         android:gravity="center"
@@ -37,7 +36,7 @@
         android:id="@+id/tv_clock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="40:00"
+        android:text="@string/placeholder_timer_text"
         android:fontFamily="@font/now_light"
         android:textStyle="bold"
         android:gravity="center"
@@ -59,19 +58,19 @@
             android:id="@+id/start_btn"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="Start"
-            android:layout_marginRight="10dp"
-            >
-
+            android:text="@string/start_button"
+            android:layout_marginEnd="10dp"
+            style="?android:attr/buttonBarButtonStyle">
         </Button>
 
         <Button
             android:id="@+id/reset_btn"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="Reset"
-            android:layout_marginRight="10dp"
-            >
+            android:text="@string/reset_button"
+            android:layout_marginEnd="10dp"
+            style="?android:attr/buttonBarButtonStyle">
+
 
         </Button>
 
@@ -79,7 +78,8 @@
             android:id="@+id/settings_btn"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="Settings">
+            android:text="@string/settings_button"
+            style="?android:attr/buttonBarButtonStyle">
 
         </Button>
 

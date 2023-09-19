@@ -3,35 +3,63 @@ package com.learning.pomodoroclock
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import kotlin.system.measureTimeMillis
+import com.learning.pomodoroclock.databinding.ActivitySettingBinding
 
 class SettingsActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySettingBinding
+
+    object SettingsSingleton {
+
+        private var studyTimeInMilliseconds: Int = 1500000
+        private var shortBreakTimeInMilliseconds: Int = 300000
+        private var longBreakTimeInMilliseconds: Int = 600000
+
+        fun setValues(studyTimeInMilliseconds: Int, shortBreakTimeInMilliseconds: Int, longBreakTimeInMilliseconds: Int)
+        {
+            this.studyTimeInMilliseconds = studyTimeInMilliseconds
+            this.shortBreakTimeInMilliseconds = shortBreakTimeInMilliseconds
+            this.longBreakTimeInMilliseconds = longBreakTimeInMilliseconds
+        }
+
+        fun getValue(valueToGet: String) : Int{
+                when(valueToGet){
+                    "Study" -> return studyTimeInMilliseconds
+                    "Short Break" -> return shortBreakTimeInMilliseconds
+                    "Long Break" -> return longBreakTimeInMilliseconds
+
+                }
+            return 0
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_setting)
 
-        val btnBack = findViewById<Button>(R.id.btn_goBack)
+        binding = ActivitySettingBinding.inflate(layoutInflater)
+        val view = binding.root
 
-        val etStudy = findViewById<EditText>(R.id.et_studyTimer)
-        val etShort = findViewById<EditText>(R.id.et_shortBreakTimer)
-        val etLong = findViewById<EditText>(R.id.et_longBreakTimer)
+        setContentView(view)
+
+        val btnBack = binding.btnGoBack
+
+        val etStudy = binding.etStudyTimer
+        val etShort = binding.etShortBreakTimer
+        val etLong = binding.etLongBreakTimer
+
 
         btnBack.setOnClickListener {
 
             val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
             val studyTimeInMilliseconds = etStudy.text.toString().toInt() * 60000
             val shortBreakTimeInMilliseconds = etShort.text.toString().toInt() * 60000
             val longBreakTimeInMilliseconds = etLong.text.toString().toInt() * 60000
 
-            intent.putExtra("Study", studyTimeInMilliseconds )
-            intent.putExtra("Short Break", shortBreakTimeInMilliseconds )
-            intent.putExtra("Long Break", longBreakTimeInMilliseconds )
+            SettingsSingleton.setValues(studyTimeInMilliseconds, shortBreakTimeInMilliseconds, longBreakTimeInMilliseconds)
 
             startActivity(intent)
+            finish()
 
         }
 
