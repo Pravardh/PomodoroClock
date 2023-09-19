@@ -22,11 +22,13 @@ of any application so much more clean.
 The syntax of Kotlin was confusing at the beginning, but I have gotten used to it and I'm starting to quite like it as well ;) 
 
 
-https://github.com/Pravardh/PomodoroClock/assets/62209754/d1679bb5-01cc-43a7-b8bc-2b15c89f5432
+https://github.com/Pravardh/PomodoroClock/assets/62209754/55e2cf1a-c8a8-4fd6-a056-a4452cec089e
+
+
 
 # Things To Implement
 
-1. Custom Timer Values
+1. Custom Timer Values -> Done
 2. Integrating The App With The Alarm Manager
 3. Different Themes
 4. Custom Ringtones
