@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PomodoroClock</string>
+    
+    <string-array name="modes">
+        <item>Study</item>
+        <item>Short Break</item>
+        <item>Long Break</item>
+    </string-array>
+</resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="#BEA8A7"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pomodoro Clock"
+        android:fontFamily="@font/now_bold"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:textSize="40sp">
+    </TextView>
+
+    <Spinner
+        android:id="@+id/mode_spinner"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:theme="@style/SpinnerTheme"
+        >
+
+    </Spinner>
+
+
+    <TextView
+        android:id="@+id/tv_clock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="40:00"
+        android:fontFamily="@font/now_light"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingTop="100dp"
+        android:paddingBottom="150dp"
+        android:textSize="100sp">
+    </TextView>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/start_btn"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Start"
+            android:layout_marginRight="10dp"
+            >
+
+        </Button>
+
+        <Button
+            android:id="@+id/reset_btn"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Reset">
+
+        </Button>
+
+    </LinearLayout>
+</LinearLayout>
