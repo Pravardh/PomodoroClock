@@ -1,35 +1,34 @@
 package com.learning.pomodoroclock
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.learning.pomodoroclock.databinding.ActivitySettingBinding
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingBinding
 
-    object SettingsSingleton {
+    companion object {
 
-        private var studyTimeInMilliseconds: Int = 1500000
-        private var shortBreakTimeInMilliseconds: Int = 300000
-        private var longBreakTimeInMilliseconds: Int = 600000
+        private var studyTimeInMilliseconds: Long = 1500000
+        private var shortBreakTimeInMilliseconds: Long = 300000
+        private var longBreakTimeInMilliseconds: Long = 600000
 
-        fun setValues(studyTimeInMilliseconds: Int, shortBreakTimeInMilliseconds: Int, longBreakTimeInMilliseconds: Int)
-        {
+        fun setValues(
+            studyTimeInMilliseconds: Long,
+            shortBreakTimeInMilliseconds: Long,
+            longBreakTimeInMilliseconds: Long
+        ) {
             this.studyTimeInMilliseconds = studyTimeInMilliseconds
             this.shortBreakTimeInMilliseconds = shortBreakTimeInMilliseconds
             this.longBreakTimeInMilliseconds = longBreakTimeInMilliseconds
         }
 
-        fun getValue(valueToGet: String) : Int{
-                when(valueToGet){
-                    "Study" -> return studyTimeInMilliseconds
-                    "Short Break" -> return shortBreakTimeInMilliseconds
-                    "Long Break" -> return longBreakTimeInMilliseconds
-
-                }
-            return 0
+        fun getValue(timerMode: TimerMode): Long = when (timerMode) {
+            TimerMode.STUDY -> studyTimeInMilliseconds
+            TimerMode.SHORT_BREAK -> shortBreakTimeInMilliseconds
+            TimerMode.LONG_BREAK -> longBreakTimeInMilliseconds
         }
     }
 
@@ -52,11 +51,15 @@ class SettingsActivity : AppCompatActivity() {
 
             val intent = Intent(this, MainActivity::class.java)
 
-            val studyTimeInMilliseconds = etStudy.text.toString().toInt() * 60000
-            val shortBreakTimeInMilliseconds = etShort.text.toString().toInt() * 60000
-            val longBreakTimeInMilliseconds = etLong.text.toString().toInt() * 60000
+            val studyTimeInMilliseconds = etStudy.text.toString().toLong() * 60000
+            val shortBreakTimeInMilliseconds = etShort.text.toString().toLong() * 60000
+            val longBreakTimeInMilliseconds = etLong.text.toString().toLong() * 60000
 
-            SettingsSingleton.setValues(studyTimeInMilliseconds, shortBreakTimeInMilliseconds, longBreakTimeInMilliseconds)
+            setValues(
+                studyTimeInMilliseconds,
+                shortBreakTimeInMilliseconds,
+                longBreakTimeInMilliseconds
+            )
 
             startActivity(intent)
             finish()
